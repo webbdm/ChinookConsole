@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
 
 namespace ChinookConsoleApp
@@ -7,11 +8,15 @@ namespace ChinookConsoleApp
     {
         public void List()
         {
-            using (var connection = new SqlConnection("Server=(local);Database=chinook;Trusted_Connection=True;"))
+            Console.Clear();
+
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["Chinook"].ConnectionString))
             {
                 var employeeListCommand = connection.CreateCommand();
 
-                employeeListCommand.CommandText = "select employeeid as Id, firstname + ' ' + lastname as fullname from Employee";
+                employeeListCommand.CommandText = "select employeeid as Id, " +
+                                                  "firstname + ' ' + lastname as fullname " +
+                                                  "from Employee";
 
                 try
                 {
@@ -22,6 +27,9 @@ namespace ChinookConsoleApp
                     {
                         Console.WriteLine($"{reader["Id"]}.) {reader["FullName"]}");
                     }
+
+                    Console.WriteLine("Press enter to return to the menu.");
+                    Console.ReadLine();
                 }
                 catch (Exception ex)
                 {

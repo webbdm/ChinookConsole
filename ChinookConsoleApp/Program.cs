@@ -10,16 +10,26 @@ namespace ChinookConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("----------------------Welcome to Chinook---------------------");
-            Console.WriteLine("------------Please select from the following options---------");
-            Console.WriteLine("1. List Employees");
-            Console.WriteLine("");
-            Console.Write(">");
-            var selection = Console.ReadLine();
-            
-            if (selection == "1") new ListEmployees().List();
 
-            Console.ReadLine();
+            while (true)
+            {
+                Console.Clear();
+
+                Console.WriteLine("----------------------Welcome to Chinook---------------------");
+                Console.WriteLine("------------Please select from the following options---------");
+                Console.WriteLine("1. List Employees");
+                Console.WriteLine("2. Add an Employee");
+                Console.WriteLine("9. Exit");
+                Console.WriteLine("");
+                Console.Write(">");
+                var selection = Console.ReadLine();
+
+
+                if (selection == "1") new ListEmployees().List();
+                if (selection == "2") new AddEmployee().Add();
+                if (selection == "9") break;
+
+            }
         }
     }
 }
