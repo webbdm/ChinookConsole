@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using Dapper;
 
 namespace ChinookConsoleApp
 {
@@ -10,20 +11,22 @@ namespace ChinookConsoleApp
         public void Delete()
         {
             var employeeList = new ListEmployees();
-            var firedEmployee = employeeList.List("Pick an employee to transition:");
+            var firedEmployee = employeeList.List("Pick the Id of an employee to transition:");
+            var y = Convert.ToInt32(firedEmployee);
 
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["Chinook"].ConnectionString))
             {
-                connection.Open();
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = "Delete From Employee where EmployeeId = @EmployeeId";
+                //connection.Open();
+                //var cmd = connection.CreateCommand();
+                //cmd.CommandText = "Delete From Employee where EmployeeId = @EmployeeId";
 
-                var employeeIdParameter = cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
-                employeeIdParameter.Value = firedEmployee;
+                //var employeeIdParameter = cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
+                //employeeIdParameter.Value = firedEmployee;
 
                 try
                 {
-                    var affectedRows = cmd.ExecuteNonQuery();
+                    var affectedRows = connection.Execute("Delete From Employee where EmployeeId = @EmployeeId",
+                        new { EmployeeId = y });
 
                     if (affectedRows == 1)
                     {
